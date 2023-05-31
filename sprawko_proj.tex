@@ -1,0 +1,100 @@
+% sprawozdanie_projekt_udostępnianie_ekranu.tex
+% Projekt indywidualny - system do udostępniania ekranu 
+% Jordan Parviainen 2023
+
+\documentclass[a4paper,11pt]{article}
+
+% Packages
+\usepackage[utf8]{inputenc}  		% Kodowanie pliku
+\usepackage[T1]{fontenc}
+\usepackage{graphicx}			% Grafika
+\usepackage[inkscapeformat=pdf]{svg}	% .svg tylko w postaci wektorowej - nie png! .pdf/.eps/.ps/.png/.pdf_tex
+
+% Settings
+\hoffset=-3.0cm                         % Mniejszy lewy margines
+\textwidth=18cm                         % szerzej
+\evensidemargin=0pt
+
+\voffset=-3cm                           % Mniejszy górny margines
+\textheight=27cm                        % szerzej wzdłuż
+
+\setlength{\parindent}{0pt}             % Paragraf od początku linii
+\setlength{\parskip}{\medskipamount}    % Odstęp pomiędzy paragrafami
+\raggedbottom                           % bez rozciągania strony
+\frenchspacing                          % Bez spacji na końcu zdania.
+%\graphicspath{ {c1} }
+
+
+% Dodatkowe komendy
+\newcommand\BS{\char`\\}                % \BS == back-slash
+\newcommand\TY{\raise.17ex\hbox{$\scriptstyle\mathtt{\sim}$}}   % \TY == większa tylda w \tt
+
+\title{%
+    Sprawozdanie z projektu indywidualnego \\
+    \ \\
+    \large{Temat: Wdrożenie prostego systemu do udostępniania ekranu komputera w sieci lokalnej}}
+\author{Jordan Parviainen}
+\begin{document}
+    \maketitle
+    \newpage
+    \pagenumbering{arabic}
+    \section{Postawienie problemu i zadania}
+        \subsection{Potrzeba}
+        W dobie powszechnej informatyzacji i pracy zdalnej, coraz więcej rzeczy jest wykonywanych przy pomocy komputera. Rośnie wraz z tym potrzeba sprawnej współpracy pomiędzy użytkownikami.  
+        Bardzo przydatna jest możliwość pokazania jak wykonać daną czynność poprzez udostępnienie obrazu swojego komputera, czy to na żywo, czy to nagrywając materiał wideo. 
+        Z takimi potrzebami spotyka się także na uczelni, np. podczas zajęć laboratoryjnych z wykorzystaniem komputerów, gdzie często prowadzący pokazuje jak wykonać daną czynność, a studenci obserwują.
+        Do tego celu wykorzystuje się często rzutniki, jednak nie jest to zawsze rozwiązanie wygodne czy optymalne. Bywają problemy z widocznością obrazu, a także nie każda sala jest do tego przystosowana.  
+        \subsection{Pomysł na rozwiązanie}
+        Aby znaleźć alternatywny sposób na rozwiązanie tego problemu, zamiast patrzeć w stronę sprzętu, można zwrócić uwagę na oprogramowanie. Czy nie byłoby łatwiej, gdyby studenci mogli oglądać ekran prowadzącego na swoich komputerach?
+        Istnieją oczywiście już tego typu rozwiązania, powszechnie stosowane w pracy zdalnej, np. MSTeams, Zoom. Jednakże są to rozwiązania zbyt rozbudowane, a także nie zawsze dostępne. Nie są one dobrym środkiem 
+        w przypadku np. zajęć laboratoryjnych, gdzie trzeba na szybko jedynie pokazać ekran. Perspektywa instalowania ciężkiego oprogramowanie i tworzenia wideokonferencji, dodawania użytkowników etc. jest odstraszająca.
+        Dlatego też powstał pomysł stworzenia prostego systemu udostępniania obrazu ekranu komputera, który idealnie nie wymagałby instalacji oprogramowania klienckiego, ani długiej konfiguracji. 
+    \section{Przegląd istniejących rozwiązań}
+        \subsection{Programy do wideokonferencji}
+        Jak już wspomniałem, istnieje wiele programów do wideokonferencji, które w ramach swojej funkcjonalności oferują udostępnianie ekranu. Są to np. MSTeams, Zoom, Google Meet, Skype, etc.
+        Jednak w zastosowaniu do udostępniania obrazu ad-hoc np. w sieci lokalnej w laboratorium mają liczne wady, takie jak:
+        \begin{itemize}
+            \item Konieczność logowania/zakładania konta
+            \item Konieczność instalowania oprogramowania klienckiego, często niemałego w rozmiarach. Co prawda istnieją wersje przeglądarkowe, ale bywają okrojone w funkcjonalności i nie działają optymalnie. 
+            \item Problemy z jakością/obciążeniem sieci. W przypadku, gdy trzeba udostępnić obraz wielu użytkownikom w jednej sali, wysoce nieoptymalnym jest korzystanie z oprogramowania, którego strumieniowanie
+            odbywa się za pośrednictwem zewnętrznego serwera.   
+        \end{itemize}     
+        \subsection{Programy typu zdalny pulpit}
+        Dostępne są na rynku programy o funkcjonalności pozwalającej na kontrolę nad zdalnym komputerem. 
+        Są to m.in. takie programy jak: TightVNC, TeamViewer, Windows Remote Desktop, CoScreen, Anydesk. 
+        Rozwiązania te dzielą wady wymienione, powyżej, a ponadto potrafią być zbyt skomplikowane do użytku, jeśli potrzebne jest tylko udostępnianie ekranu. 
+        Ponadto często są to rozwiązania komercyjne, o zamkniętym kodzie źródłowym i płatnej licencji. 
+        W laboratorium Sieci Komputerowych użyte było rozwiązanie oparte na skrypcie uruchamiającym i koordynującym połączenie za pomocą TightVNC. 
+        Niestety, oznaczało to konieczność instalacji TightVNC na każdym komputerze, a samo udostępnianie np. okna terminala obwarowane było ograniczeniami i koniecznością ręcznego ustawiania np. rozdzielczości. 
+    \section{Opis rozwiązania}
+        \subsection{Pomysł}
+        Swoją nadzieję położyłem w nowoczesnej przeglądarkowej technologii WebRTC. Pozwala ona na strumieniowanie obrazu i dźwięku przez przeglądarkę internetową w topologii punkt-do-punktu. 
+        Jest to kompleksowe rozwiązanie obejmujące kompresję, kodowanie, szyfrowanie strumienia i wykorzystanie akceleracji sprzętowej.
+        Ponadto technologia zawiera też mechanizmy zapewniające stałe bezpośrednie połączenie pomiędzy użytkownikami, nawet w skomplikowanych konfiguracjach sieciowych z NAT-ami.
+        Cała ta moc jest udostępniona przez JavaScript-owe API w każdej popularnej przeglądarce internetowej (silniki Chromium i Gecko), oprócz tych opartych na silniku WebKit w produktach Apple. 
+        \subsection{Poszukiwanie gotowych rozwiązań}
+        Możnaby pokusić się o samodzielne napisanie rozwiązania, jednak wolałem przeszukać zasoby gotowych rozwiązań o otwartym kodzie źródłowym,
+        czy przypadkiem jakaś część tego, co jest potrzebne nie została już przez kogoś wykonana.
+        Rozpocząłem swoje poszukiwania na najpopularniejszej stronie do udostępniania kodu - \emph{github.com}. Dosyć szybko natrafiłem, na to, czego szukałem.
+        \subsection{Znalezione oprogramowanie}
+        Znalazłem publicznie dostępny kod aplikacji internetowej wykorzystującej technologię WebRTC do udostępniania ekranu z poziomu przeglądarki. \\
+        Repozytorium znajduje się pod adresem github.com/adamyordan/laplace. \\
+        Jest to prosty serwer http napisany w języku Go. 
+        Serwuje on pliki części frontendowej i komunikuje się z nią za pomocą protokołu WebSocket w celu negocjacji połączenia WebRTC (signaling). 
+        Część kliencka (przeglądarkowa) aplikacji napisana jest w czystym Javascript. Cała aplikacja ma niewiele funkcjonalności, ale za to kod jest zwięzły i całość ma niewielki rozmiar.
+        \subsection{Działanie aplikacji}
+        Działanie aplikacji polega na tym, że gdy ktoś chce udostępnić innym swój ekran, wybiera odpowiednią opcję i tworzy tzw. "pokój", 
+        który ma przypisany identyfikator i do którego mogą dołączyć inni używając tego identyfikatora. 
+        Zgodnie ze specyfikacją WebRTC, serwer nie pośredniczy w strumieniowaniu obrazu, a jedynie w nawiązaniu połączenia i jego utrzymaniu między użytkownikami.   
+        Maszyna osoby udostępniającej ekran wysyła pakiety transmisji do każdej maszyny oglądającego. 
+        Poniżej znajduje się schemat przedstawiający architekturę i działanie aplikacji: 
+        \begin{figure}[!ht]
+        \centering
+        \def\svgwidth{\columnwidth}
+        \includesvg[width=0.8\columnwidth]{schemat_dzialania}
+        \caption{Schemat sieci wewnętrznej}
+        \label{rys1:label}
+        \end{figure}
+    \section{Wdrożenie rozwiązania} 
+    \section{Testy rozwiązania}
+\end{document}
