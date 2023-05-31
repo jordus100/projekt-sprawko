@@ -95,6 +95,13 @@
         \caption{Schemat sieci wewnętrznej}
         \label{rys1:label}
         \end{figure}
+        \subsection{Więcej o WebRTC}
+        Nawiązywanie połączenia punkt-do-punktu zaczyna się od zgłoszenia się maszyny chcącej nawiązać połączenie do serwera sygnalizacyjnego(ang.\emph{signaling server}).
+        Następnie, serwer sygnalizacyjny ustala parametry połączenia nowej maszyny do pozostałych, korzystając z technologii ICE - (ang.\emph{Interactive Connectivity Establishment}).
+        Jest to protokół służący do znajdowania sposobu, w jaki komputery mogą być ze sobą połączone jak najbardziej bezpośrednio, jak to jest możliwe. 
+        Wykrywa możliwości obchodzenia m.in. NAT-ów i firewall-i. 
+        W tym procesie znajdowani są tzw. kandydaci ścieżek i adresów połączeń uszeregowanych według skuteczności i informacja ta jest przesyłana do klientów, 
+        którzy następnie nawiązują według tych informacji połączenia bezpośrednio z innymi klientami.  
     \section{Wdrożenie rozwiązania} 
     \section{Testy rozwiązania}
 \end{document}
