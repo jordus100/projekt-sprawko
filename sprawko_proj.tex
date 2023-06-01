@@ -79,7 +79,7 @@
         \subsection{Znalezione oprogramowanie}
         Znalazłem publicznie dostępny kod aplikacji internetowej wykorzystującej technologię WebRTC do udostępniania ekranu z poziomu przeglądarki. \\
         Repozytorium znajduje się pod adresem github.com/adamyordan/laplace. \\
-        Jest to prosty serwer http napisany w języku Go. 
+        Jest to prosty serwer HTTP napisany w języku Go. 
         Serwuje on pliki części frontendowej i komunikuje się z nią za pomocą protokołu WebSocket w celu negocjacji połączenia WebRTC (signaling). 
         Część kliencka (przeglądarkowa) aplikacji napisana jest w czystym Javascript. Cała aplikacja ma niewiele funkcjonalności, ale za to kod jest zwięzły i całość ma niewielki rozmiar.
         \subsection{Działanie aplikacji}
@@ -103,5 +103,31 @@
         W tym procesie znajdowani są tzw. kandydaci ścieżek i adresów połączeń uszeregowanych według skuteczności i informacja ta jest przesyłana do klientów, 
         którzy następnie nawiązują według tych informacji połączenia bezpośrednio z innymi klientami.  
     \section{Wdrożenie rozwiązania} 
+        \subsection{Środowisko wdrożeniowe i cel}
+        Celem projektu jest wdrożenie opisanego przeze mnie rozwiązania do laboratorium Sieci Komputerowych w gmachu Elektrycznym Politechniki Warszawskiej. 
+        Nie jest to jedyny cel, idealnie byłoby przygotować prostą ścieżkę do zastosowania podobnego rozwiązania w innych, podobnych środowiskach.    
+        Laboratorium Sieci Komputerowych składa się z kilkunastu maszyn połączonych w lokalną sieć o dużej przepustowości zarówno wewnętrznej, jak i do internetu.
+        Na maszynach tych standardowo używany jest Arch Linux podnoszony z sieci, więc instalacja i konfiguracja była robiona z myślą o tym środowisku.  
+        \subsection{Co było do zrealizowania}
+        W ramach wdrożenia zrealizowałem następujące rzeczy: 
+        \begin{itemize}
+            \item Dostosowałem oprogramowanie do warunków sieci lokalnej i przygotowałem jego repozytorium.
+            \item Napisałem skrypty instalacyjne pod system operacyjny Arch Linux.
+            \item Napisałem skrypty usprawniające pracę z oprogramowaniem do udostęniania ekranu.
+        \end{itemize}
+        \subsection{Modyfikacja oprogramowania}
+        \begin{itemize}
+            \item Dodałem punkt końcowy do interfejsu REST serwera, zwracający identyfikator ostatnio utworzonego "pokoju", co umożliwia automatyzację otwierania ekranu udostępnianego przez prowadzącego w laboratorium.  
+            \item Dodałem możliwość przekazania w fazie kompilacji zmiennej z lokalizacją plików statycznych serwera HTTP.
+            \item Ustawiłem najwyższe ustawienie jakości jako domyślne. 
+        \end{itemize}
+        Stworzyłem repozytorium na GitHub'ie i nadałem projektowi anglosaską nazwę "projector".
+        \subsection{Skrypty instalacyjne}
+        Na Arch Linuxie pakiety są budowane i instalowane za pomocą programu \texttt{makepkg}, według procedury opisanej w ustandaryzowanym pliku \texttt{PKGBUILD} pakietu. 
+        Oto ten skrypt dla programu "projector":
+        \lstinputlisting{PKGBUILD}
+        Pełnej automatyzacji budowania i instalacji dopełnia skrypt pomocniczy:
+        \lstinputlisting{proj}
+        Pobiera on plik \texttt{PKGBUILD} z repozytorium i uruchamia makepkg z odpowiednimi flagami. 
     \section{Testy rozwiązania}
 \end{document}

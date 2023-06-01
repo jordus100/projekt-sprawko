@@ -1,0 +1,25 @@
+#!/bin/sh
+# build/projector
+# Serwer usługi udostępniania ekranu w przeglądarce
+# parviaij 2023
+
+REPO=https://github.com/jordus100/projector
+PKG=projector
+
+git clone $REPO --depth 1
+cd $PKG
+
+opt="--force"                           # -f ERROR: A package has already been built
+opt="$opt --syncdeps"                   # -s Install missing dependencies using pacman
+opt="$opt --clean"                      # -c Clean after a successful build.
+opt="$opt --install"                    # -i Install or upgrade
+opt="$opt --noconfirm"                    
+opt="$opt --noprogressbar"                    
+
+makepkg $opt 	# Budowa + instalacja
+
+cd -
+
+rm -rf $PKG
+
+exit    
