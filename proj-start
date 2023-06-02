@@ -1,0 +1,19 @@
+#!/bin/sh
+# proj-start
+# Uruchamia serwer laplace i otwiera w przeglądarce stronę do udostępniania,
+# parviaij 2023
+
+SERVER=m1
+PORT=8080			
+URL="https://$SERVER:$PORT/?stream=1"
+
+# START
+
+# odkomentować, jeśli projector.service nie jest uruchomiony wcześniej
+# sudo systemctl start projector  
+
+warn -M 'Proszę kliknąć guzik "Start stream" i wybrać udostępniane okno'
+
+firefox -new-tab "$URL" >/dev/null 2>&1 &
+
+exit

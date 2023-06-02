@@ -1,0 +1,12 @@
+# parviaij 2023
+[Unit]
+Description=Projektor - serwer usługi do udostępniania ekranu
+Wants=network-online.target
+After=network-online.target   # serwis zostanie uruchomiony jak połączenie z siecią będzie działać   
+
+[Service]
+ExecStart=laplace --addr="0.0.0.0:8080"
+
+[Install]
+WantedBy=multi-user.target # serwis zostanie uruchomiony po załadowaniu całego środowiska użytkownika przez system 
+

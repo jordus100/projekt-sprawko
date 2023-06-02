@@ -9,6 +9,20 @@
 \usepackage[T1]{fontenc}
 \usepackage{graphicx}			% Grafika
 \usepackage[inkscapeformat=pdf]{svg}	% .svg tylko w postaci wektorowej - nie png! .pdf/.eps/.ps/.png/.pdf_tex
+\usepackage{listings}
+
+\lstdefinestyle{myStyle}{
+    belowcaptionskip=1\baselineskip,
+    breaklines=true,
+    frame=none,
+    numbers=none,
+    basicstyle=\footnotesize\ttfamily,
+    keywordstyle=\bfseries\color{green!40!black},
+    commentstyle=\itshape\color{purple!40!black},
+    identifierstyle=\color{blue},
+    backgroundcolor=\color{gray!10!white},
+}
+\lstset{style=myStyle}
 
 % Settings
 \hoffset=-3.0cm                         % Mniejszy lewy margines
@@ -125,9 +139,27 @@
         \subsection{Skrypty instalacyjne}
         Na Arch Linuxie pakiety są budowane i instalowane za pomocą programu \texttt{makepkg}, według procedury opisanej w ustandaryzowanym pliku \texttt{PKGBUILD} pakietu. 
         Oto ten skrypt dla programu "projector":
-        \lstinputlisting{PKGBUILD}
+        \lstinputlisting[language=bash]{PKGBUILD}
         Pełnej automatyzacji budowania i instalacji dopełnia skrypt pomocniczy:
-        \lstinputlisting{proj}
+        \lstinputlisting[language=bash]{proj}
         Pobiera on plik \texttt{PKGBUILD} z repozytorium i uruchamia makepkg z odpowiednimi flagami. 
+        \\ Stowrzyłem również plik definiujący serwis systemd:
+        \lstinputlisting[language=bash]{projector.service}
+        \subsection{Skrypty automatyzacyjne}
+        Stworzyłem też skrypty mające na celu przyspieszenie i automatyzację pracy.
+        Skrypt dla udostępniającego ekran(prowadzącego):
+        \lstinputlisting[language=bash]{proj-start}
+        Otwiera on przeglądarkę wraz ze stroną, gdzie można 2-ma kliknięciami udostępnić swój ekran. Opcjonalnie uruchamia serwer programu. 
+        \\ Kolejny skrypt jest dla osób, które chcą oglądać u siebie udostępniony ekran (studenci).
+        \lstinputlisting[language=bash]{proj-klient}
+        Skrypt ten znajduje ostatnio utworzony "pokój", gdzie udostępniany jest ekran i otwiera przeglądarkę na stronie, gdzie można go oglądać.
+        \subsection{Problemy}
+            \subsubsection{HTTPS}
+            Początkowo chciałem wdrożyć system w laboratorium bez szyfrowania, ponieważ wydawało się to wygodniejsze i nie miało być dostępu z zewnątrz.
+            Okazało się jednak w trakcie testów, że przeglądarki nie pozwalają na dostęp do API WebRTC na stronach bez szyfrowania HTTPS.
+            Zmusiło mnie to do włączenie obsługi HTTPS na serwerze projector. Skorzystałem z szybkiego i prostego rozwiązania - samopodpisany certyfikat SSL.
+            Wprowadziło to jednak problemy w postaci przeglądarek wyświetlających ostrzeżenia o braku zaufania, co jest naturalne. 
+            Obszedłem to tymczasowo w moich skryptach automatyzujących \texttt{proj-start} i \texttt{proj-klient}, przekazując odpowiednie parametry przy uruchamianiu przeglądarek, aby ignorowały błędy certyfikatów.
+            Kolejnym naturalnym krokiem byłoby dowiązanie domeny do serwera projector i uzyskanie zaufanego certyfikatu SSL dla niej. 
     \section{Testy rozwiązania}
 \end{document}
