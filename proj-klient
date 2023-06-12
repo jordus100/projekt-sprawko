@@ -1,5 +1,6 @@
 #!/bin/sh
 # proj-klient
+# parviaij 2023
 # Skrypt ułatwiający oglądanie ekranu udostępnionego w aplikacji projector
 
 SERVER=m1

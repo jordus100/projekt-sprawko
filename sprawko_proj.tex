@@ -7,10 +7,12 @@
 % Packages
 \usepackage[utf8]{inputenc}  		% Kodowanie pliku
 \usepackage[T1]{fontenc}
+\usepackage[T1]{polski}			% Język polski
 \usepackage{graphicx}			% Grafika
 \usepackage[inkscapeformat=pdf]{svg}	% .svg tylko w postaci wektorowej - nie png! .pdf/.eps/.ps/.png/.pdf_tex
 \usepackage{listings}
 \usepackage{float}
+\usepackage{hyperref}
 
 \lstdefinestyle{myStyle}{
     belowcaptionskip=1\baselineskip,
@@ -63,25 +65,36 @@
 
 \voffset=-3cm                           % Mniejszy górny margines
 \textheight=27cm                        % szerzej wzdłuż
-
-\setlength{\parindent}{0pt}             % Paragraf od początku linii
-\setlength{\parskip}{\medskipamount}    % Odstęp pomiędzy paragrafami
-\raggedbottom                           % bez rozciągania strony
 \frenchspacing                          % Bez spacji na końcu zdania.
-%\graphicspath{ {c1} }
+\setlength{\parindent}{0pt}             % No paragraph indentation
+\setlength{\parskip}{\medskipamount}    % Space between paragraphs
+\raggedbottom                           % bez rozciagania strony
 
 
 % Dodatkowe komendy
 \newcommand\BS{\char`\\}                % \BS == back-slash
 \newcommand\TY{\raise.17ex\hbox{$\scriptstyle\mathtt{\sim}$}}   % \TY == większa tylda w \tt
+\setlength{\abovecaptionskip}{15pt plus 3pt minus 2pt}
+\setlength{\belowcaptionskip}{15pt plus 3pt minus 2pt}
 
 \title{%
-    Sprawozdanie z projektu indywidualnego \\
+    \huge{Sprawozdanie z projektu indywidualnego \\
     \ \\
-    \large{Temat: Wdrożenie prostego systemu do udostępniania ekranu komputera w sieci lokalnej}}
-\author{Jordan Parviainen}
+    Temat: Wdrożenie prostego systemu do udostępniania ekranu komputera w sieci lokalnej}}
+\author{\large{Autor projektu: Jordan Parviainen} \\ Opiekun projektu: mgr inż. Andrzej Toboła}
 \begin{document}
     \maketitle
+    \thispagestyle{empty}
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width=0.7\textwidth]{PW-uroczysty-grafitowe.png}
+    \end{figure}
+    \begin{center}\huge{Wydział Elektryczny} \\
+    \huge{Informatyka Stosowana} 
+    \end{center}
+    \newpage
+    \thispagestyle{empty}
+    \tableofcontents
     \newpage
     \pagenumbering{arabic}
     \section{Postawienie problemu i zadania}
@@ -97,7 +110,7 @@
         Dlatego też powstał pomysł stworzenia prostego systemu udostępniania obrazu ekranu komputera, który idealnie nie wymagałby instalacji oprogramowania klienckiego, ani długiej konfiguracji. 
     \section{Przegląd istniejących rozwiązań}
         \subsection{Programy do wideokonferencji}
-        Jak już wspomniałem, istnieje wiele programów do wideokonferencji, które w ramach swojej funkcjonalności oferują udostępnianie ekranu. Są to np. MSTeams, Zoom, Google Meet, Skype, etc.
+        Jak już było wspomniane, istnieje wiele programów do wideokonferencji, które w ramach swojej funkcjonalności oferują udostępnianie ekranu. Są to np. MSTeams, Zoom, Google Meet, Skype, etc.
         Jednak w zastosowaniu do udostępniania obrazu ad-hoc np. w sieci lokalnej w laboratorium mają liczne wady, takie jak:
         \begin{itemize}
             \item Konieczność logowania/zakładania konta
@@ -114,17 +127,17 @@
         Niestety, oznaczało to konieczność instalacji TightVNC na każdym komputerze, a samo udostępnianie np. okna terminala obwarowane było ograniczeniami i koniecznością ręcznego ustawiania np. rozdzielczości. 
     \section{Opis rozwiązania}
         \subsection{Pomysł}
-        Swoją nadzieję położyłem w nowoczesnej przeglądarkowej technologii WebRTC. Pozwala ona na strumieniowanie obrazu i dźwięku przez przeglądarkę internetową w topologii punkt-do-punktu. 
+        Nadzieję w tym projekcie położono w nowoczesnej przeglądarkowej technologii WebRTC. Pozwala ona na strumieniowanie obrazu i dźwięku przez przeglądarkę internetową w topologii punkt-do-punktu. 
         Jest to kompleksowe rozwiązanie obejmujące kompresję, kodowanie, szyfrowanie strumienia i wykorzystanie akceleracji sprzętowej.
         Ponadto technologia zawiera też mechanizmy zapewniające stałe bezpośrednie połączenie pomiędzy użytkownikami, nawet w skomplikowanych konfiguracjach sieciowych z NAT-ami.
         Cała ta moc jest udostępniona przez JavaScript-owe API w każdej popularnej przeglądarce internetowej (silniki Chromium i Gecko), oprócz tych opartych na silniku WebKit w produktach Apple. 
         \subsection{Poszukiwanie gotowych rozwiązań}
-        Możnaby pokusić się o samodzielne napisanie rozwiązania, jednak wolałem przeszukać zasoby gotowych rozwiązań o otwartym kodzie źródłowym,
+        Możnaby pokusić się o samodzielne napisanie rozwiązania, jednak lepiej było najpierw przeszukać zasoby gotowych rozwiązań o otwartym kodzie źródłowym,
         czy przypadkiem jakaś część tego, co jest potrzebne nie została już przez kogoś wykonana.
-        Rozpocząłem swoje poszukiwania na najpopularniejszej stronie do udostępniania kodu - \emph{github.com}. Dosyć szybko natrafiłem, na to, czego szukałem.
+        Rozpoczęto swoje poszukiwania na najpopularniejszej stronie do udostępniania kodu - \emph{github.com}. Dosyć szybko znalazło się coś nadającego się.
         \subsection{Znalezione oprogramowanie}
-        Znalazłem publicznie dostępny kod aplikacji internetowej wykorzystującej technologię WebRTC do udostępniania ekranu z poziomu przeglądarki. \\
-        Repozytorium znajduje się pod adresem github.com/adamyordan/laplace. \\
+        Znaleziony zostało publicznie dostępny kod aplikacji internetowej wykorzystującej technologię WebRTC do udostępniania ekranu z poziomu przeglądarki. \\
+        Repozytorium znajduje się pod adresem \url{github.com/adamyordan/laplace}. \\
         Jest to prosty serwer HTTP napisany w języku Go. 
         Serwuje on pliki części frontendowej i komunikuje się z nią za pomocą protokołu WebSocket w celu negocjacji połączenia WebRTC (signaling). 
         Część kliencka (przeglądarkowa) aplikacji napisana jest w czystym Javascript. Cała aplikacja ma niewiele funkcjonalności, ale za to kod jest zwięzły i całość ma niewielki rozmiar.
@@ -138,7 +151,7 @@
         \centering
         \def\svgwidth{\columnwidth}
         \includesvg[width=1\textwidth]{proj-arch}
-        \caption{Schemat sieci wewnętrznej}
+        \caption{Schemat architektury sieciowej aplikacji}
         \label{rys1:label}
         \end{figure}
         \subsection{Więcej o WebRTC}
@@ -155,44 +168,59 @@
         Laboratorium Sieci Komputerowych składa się z kilkunastu maszyn połączonych w lokalną sieć o dużej przepustowości zarówno wewnętrznej, jak i do internetu.
         Na maszynach tych standardowo używany jest Arch Linux podnoszony z sieci, więc instalacja i konfiguracja była robiona z myślą o tym środowisku.  
         \subsection{Co było do zrealizowania}
-        W ramach wdrożenia zrealizowałem następujące rzeczy: 
+        W ramach wdrożenia zrealizowano następujące rzeczy: 
         \begin{itemize}
-            \item Dostosowałem oprogramowanie do warunków sieci lokalnej i przygotowałem jego repozytorium.
-            \item Napisałem skrypty instalacyjne pod system operacyjny Arch Linux.
-            \item Napisałem skrypty usprawniające pracę z oprogramowaniem do udostęniania ekranu.
+            \item Dostosowano oprogramowanie do warunków sieci lokalnej i przygotowano jego repozytorium.
+            \item Napisano skrypty instalacyjne pod system operacyjny Arch Linux.
+            \item Napisano skrypty usprawniające pracę z oprogramowaniem do udostęniania ekranu.
         \end{itemize}
         \subsection{Modyfikacja oprogramowania}
         \begin{itemize}
-            \item Dodałem punkt końcowy do interfejsu REST serwera, zwracający identyfikator ostatnio utworzonego "pokoju", co umożliwia automatyzację otwierania ekranu udostępnianego przez prowadzącego w laboratorium.  
-            \item Dodałem możliwość przekazania w fazie kompilacji zmiennej z lokalizacją plików statycznych serwera HTTP.
-            \item Ustawiłem najwyższe ustawienie jakości jako domyślne. 
+            \item Dodano punkt końcowy do interfejsu REST serwera, zwracający identyfikator ostatnio utworzonego "pokoju", co umożliwia automatyzację otwierania ekranu udostępnianego przez prowadzącego w laboratorium.  
+            \item Dodano możliwość przekazania w fazie kompilacji zmiennej z lokalizacją plików statycznych serwera HTTP.
+            \item Ustawiono najwyższe ustawienie jakości jako domyślne. 
         \end{itemize}
-        Stworzyłem repozytorium na GitHub'ie i nadałem projektowi anglosaską nazwę "projector".
+        Stworzono repozytorium na GitHub'ie i nadano projektowi anglosaską nazwę "projector". \\
+        \url{https://github.com/jordus100/projector}
         \subsection{Skrypty instalacyjne}
         Na Arch Linuxie pakiety są budowane i instalowane za pomocą programu \texttt{makepkg}, według procedury opisanej w ustandaryzowanym pliku \texttt{PKGBUILD} pakietu. 
         Oto ten skrypt dla programu "projector":
         \lstinputlisting[language=bash]{PKGBUILD}
+        \newpage
         Pełnej automatyzacji budowania i instalacji dopełnia skrypt pomocniczy:
         \lstinputlisting[language=bash]{proj}
         Pobiera on plik \texttt{PKGBUILD} z repozytorium i uruchamia makepkg z odpowiednimi flagami. 
-        \\ Stowrzyłem również plik definiujący serwis systemd:
+        \\ Stworzono również plik definiujący serwis systemd:
         \lstinputlisting[language=bash]{projector.service}
         \subsection{Skrypty automatyzacyjne}
-        Stworzyłem też skrypty mające na celu przyspieszenie i automatyzację pracy.
+        Stworzono też skrypty mające na celu przyspieszenie i automatyzację pracy.
         Skrypt dla udostępniającego ekran(prowadzącego):
         \lstinputlisting[language=bash]{proj-start}
         Otwiera on przeglądarkę wraz ze stroną, gdzie można 2-ma kliknięciami udostępnić swój ekran. Opcjonalnie uruchamia serwer programu. 
         \\ Kolejny skrypt jest dla osób, które chcą oglądać u siebie udostępniony ekran (studenci).
         \lstinputlisting[language=bash]{proj-klient}
         Skrypt ten znajduje ostatnio utworzony "pokój", gdzie udostępniany jest ekran i otwiera przeglądarkę na stronie, gdzie można go oglądać.
-        \subsection{Problemy}
-            \subsubsection{HTTPS}
-            Początkowo chciałem wdrożyć system w laboratorium bez szyfrowania, ponieważ wydawało się to wygodniejsze i nie miało być dostępu z zewnątrz.
-            Okazało się jednak w trakcie testów, że przeglądarki nie pozwalają na dostęp do API WebRTC na stronach bez szyfrowania HTTPS.
-            Zmusiło mnie to do włączenie obsługi HTTPS na serwerze projector. Skorzystałem z szybkiego i prostego rozwiązania - samopodpisany certyfikat SSL.
-            Wprowadziło to jednak problemy w postaci przeglądarek wyświetlających ostrzeżenia o braku zaufania, co jest naturalne. 
-            Obszedłem to tymczasowo w moich skryptach automatyzujących \texttt{proj-start} i \texttt{proj-klient}, przekazując odpowiednie parametry przy uruchamianiu przeglądarek, aby ignorowały błędy certyfikatów.
-            Kolejnym naturalnym krokiem byłoby dowiązanie domeny do serwera projector i uzyskanie zaufanego certyfikatu SSL dla niej. 
+        \subsection{Instrukcje instalacji i użytkowania}
+            \subsubsection{Instalacja}
+            Instalacja odbywa się automatycznie za pomocą skryptu \texttt{proj}:
+            \begin{lstlisting}[language=bash]
+            ./proj
+            \end{lstlisting}
+            Domyślnie serwis aplikacji nie jest uruchamiany. Można ustawić jego automatyczne włączanie przy starcie systemu:
+            \begin{lstlisting}[language=bash]
+            sudo systemctl enable projector
+            \end{lstlisting}
+            Można zmienić port, na którym działa serwer aplikacji modyfikując plik definicji serwisu:
+            \begin{lstlisting}[language=bash]
+            sudo systemctl edit projector
+            \end{lstlisting}
+            Należy zmodyfikować zmienną PORT.
+            \subsubsection{Udostępnianie ekranu}
+            Proces sprowadza się do upewnienia się, że aplikacja działa na serwerze i otworzenia przeglądarki na stronie \texttt{http://SERWER:PORT/}.
+            W celach automatyzacji i ominięcia ostrzeżeń przeglądarki o niebezpiecznym połączeniu można użyć skryptu \texttt{proj-start}.
+            \subsubsection{Oglądanie udostępnionego ekranu}
+            Metoda ręczna - uzyskanie 3 słownego identyfikatora pokoju i wpisanie go w pole tekstowe "Join streaming room" na głównej stronie aplikacji.
+            Zautomatyzowana metoda - uruchomienie skryptu \texttt{proj-klient}.
     \section{Efekty}
         \subsection{Testy w laboratorium Sieci Komputerowych}
         System został pomyślnie zainstalowany na serwerze w laboratorium. 
@@ -206,4 +234,32 @@
             \caption{Zrzut ekranu strony udostępniania ekranu}
             \includegraphics[width=1\textwidth]{strona_udostepniania.png}
         \end{figure}
+        \subsection{Problemy i przyszłość}
+            \subsubsection{HTTPS}
+            Początkowo planowano wdrożyć system w laboratorium bez szyfrowania, ponieważ wydawało się to wygodniejsze i nie miało być dostępu z zewnątrz.
+            Okazało się jednak w trakcie testów, że przeglądarki nie pozwalają na dostęp do API WebRTC na stronach bez szyfrowania HTTPS.
+            Zmusiło to do włączenie obsługi HTTPS na serwerze projector. Skorzystano z szybkiego i prostego rozwiązania - samopodpisany certyfikat SSL.
+            Wprowadziło to jednak problemy w postaci przeglądarek wyświetlających ostrzeżenia o braku zaufania, co jest naturalne. 
+            Obchodzone jest to tymczasowo w moich skryptach automatyzujących \texttt{proj-start} i \texttt{proj-klient}, przekazując odpowiednie parametry przy uruchamianiu przeglądarek, aby ignorowały błędy certyfikatów.
+            Kolejnym naturalnym krokiem byłoby dowiązanie domeny do serwera projector i uzyskanie zaufanego certyfikatu SSL dla niej. 
+            \subsubsection{Protokoły okien}
+            Podczas testów systemu w laboratorium okazało się, że poprawne działanie jest trudniejsze w przypadku używania nowoczesnego protokołu okien Wayland.
+            Przeglądarki Chromium, Firefox nie dawały pełnych możliwości udostępnianie ekranu czy pojedynczych okien. 
+            W przypadku przeglądarki Chromium nie uruchamiała się w ogóle w trybie Wayland, tylko korzystała z zapewniającego wsteczną kompatybilność protokołu XWayland.
+            W pełni poprawną funkcjonalność udało się jedynie uzyskać wymuszając uruchomienie menedżera okien z protokołem X11 (Xorg).
+            Jest to na pewno problem, który z czasem zostanie rozwiązany, ponieważ protokół Wayland jest przyszłością i jest dynamicznie rozwijany.
+            \subsubsection{Konfiguracja wyświetlania strony}
+            Interfejs użytkownika aplikacji można na pewno ulepszyć, tutaj kilka pomysłów: 
+            \begin{itemize}
+            \item Dodanie możliwości konfiguracji opcji WebRTC w utworzonym już pokoju - teraz można jedynie to robić przed jego utworzeniem.
+            \item Lepsze możliwości zmiany rozmiaru okna oglądania udostępnianego ekranu - teraz można to robić jedynie przez zmianę rozmiaru okna przeglądarki i nie wykorzystuje dobrze ekranu.
+            Przy trybie niepełnoekranowym występują problemy z rozdzielczością.
+            \end{itemize}
+    \section{Bibliografia i linki}
+        \begin{itemize}
+        \item \url{https://github.com/jordus100/projector} - Repozytorium projektu
+        \item \url{https://github.com/adamyordan/laplace} - Repozytorium oryginalnego systemu, na którym opiera się projekt
+        \item \url{https://github.com/webrtc-for-the-curious/webrtc-for-the-curious} - Szczegółowy opis protokołu WebRTC
+        \item \url{https://wiki.archlinux.org/title/PKGBUILD} \\ \url{https://wiki.archlinux.org/title/makepkg} - Budowanie pakietów dla Arch Linux
+        \end{itemize}
 \end{document}

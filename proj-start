@@ -9,11 +9,10 @@ URL="https://$SERVER:$PORT/?stream=1"
 
 # START
 
-# odkomentować, jeśli projector.service nie jest uruchomiony wcześniej
-# sudo systemctl start projector  
+sudo systemctl start projector  
 
 warn -M 'Proszę kliknąć guzik "Start stream" i wybrać udostępniane okno'
 
-firefox -new-tab "$URL" >/dev/null 2>&1 &
+chromium --ignore-certificate-errors -new-tab "$URL" >/dev/null 2>&1 &
 
 exit
