@@ -1,5 +1,7 @@
+# PKGBUILD
 # skrypt budujący i instalujący program projector za pomocą makepkg w Arch Linux  
 # parviaij 2023
+
 pkgname='projector'
 pkgrel=1
 pkgver=1.0.0

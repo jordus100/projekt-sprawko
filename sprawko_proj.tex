@@ -13,7 +13,6 @@
 \usepackage{listings}
 \usepackage{float}
 \usepackage{lmodern}
-\usepackage{biblatex}
 \usepackage{hyperref}
 
 \lstdefinestyle{myStyle}{
@@ -183,30 +182,22 @@
             \item Ustawiono najwyższe ustawienie jakości jako domyślne. 
         \end{itemize}
         Stworzono repozytorium na GitHub'ie\cite{1} i nadano projektowi anglosaską nazwę "projector".
-        \subsection{Skrypty instalacyjne}
-        Na Arch Linuxie pakiety są budowane i instalowane za pomocą programu \texttt{makepkg}, według procedury opisanej w ustandaryzowanym pliku \texttt{PKGBUILD} pakietu. 
-        Oto ten skrypt dla programu "projector":
-        \lstinputlisting[language=bash]{PKGBUILD}
-        \newpage
-        Pełnej automatyzacji budowania i instalacji dopełnia skrypt pomocniczy:
-        \lstinputlisting[language=bash]{proj}
-        Pobiera on plik \texttt{PKGBUILD} z repozytorium i uruchamia makepkg z odpowiednimi flagami. 
-        \\ Stworzono również plik definiujący serwis systemd:
-        \lstinputlisting[language=bash]{projector.service}
-        \subsection{Skrypty automatyzacyjne}
-        Stworzono też skrypty mające na celu przyspieszenie i automatyzację pracy.
-        Skrypt dla udostępniającego ekran(prowadzącego):
-        \lstinputlisting[language=bash]{proj-start}
-        Otwiera on przeglądarkę wraz ze stroną, gdzie można 2-ma kliknięciami udostępnić swój ekran. Opcjonalnie uruchamia serwer programu. 
-        \\ Kolejny skrypt jest dla osób, które chcą oglądać u siebie udostępniony ekran (studenci).
-        \lstinputlisting[language=bash]{proj-klient}
-        Skrypt ten znajduje ostatnio utworzony "pokój", gdzie udostępniany jest ekran i otwiera przeglądarkę na stronie, gdzie można go oglądać.
         \subsection{Instrukcje instalacji i użytkowania}
-            \subsubsection{Instalacja}
-            Instalacja odbywa się automatycznie za pomocą skryptu \texttt{proj}:
+            \subsubsection{Instalacja serwera}
+            Potrzebny jest skrypt i narzędzie budujące dopasowane do systemu operacyjnego. 
+            W przypadku Arch Linuxa, pakiety buduje się i instaluje za pomocą programu \texttt{makepkg}, który korzysta z pliku definicyjnego \hyperref[PKGBUILD]{PKGBUILD}.
+            Szczegółowa dokumentacja i instrukcja znajduje się na stronach Arch Wiki \cite{4}.
+            Należy umieścić ten plik (np. skopiować z repozytorium) w folderze, w którym chcemy budować.
+            Następnie należy uruchomić \texttt{makepkg} z odpowiednimi argumentami, np.:
             \begin{lstlisting}[language=bash]
-            ./proj
+            makepkg --force --syncdeps --clean --noconfirm --noprogressbar
             \end{lstlisting}
+            To zbuduje pakiet, który będzie widoczny w bieżącym folderze, lub w innej lokalizacji wedle ustawień \texttt{makepkg}.
+            Aby go zaintalować, należy uruchomić
+            \begin{lstlisting}
+            makepkg install
+            \end{lstlisting}
+            Można napisać skrypt automatyzujący powyższe czynności, tak jak wykorzystany w projekcie: \ref{proj}.
             Domyślnie serwis aplikacji nie jest uruchamiany. Można ustawić jego automatyczne włączanie przy starcie systemu:
             \begin{lstlisting}[language=bash]
             sudo systemctl enable projector
@@ -218,10 +209,14 @@
             Należy zmodyfikować zmienną PORT.
             \subsubsection{Udostępnianie ekranu}
             Proces sprowadza się do upewnienia się, że aplikacja działa na serwerze i otworzenia przeglądarki na stronie \texttt{http://SERWER:PORT/}.
-            W celach automatyzacji i ominięcia ostrzeżeń przeglądarki o niebezpiecznym połączeniu można użyć skryptu \texttt{proj-start}.
+            Jeśli serwis \texttt{projector} nie jest włączony, to należy to zrobić poleceniem
+            \begin{lstlisting}
+            sudo systemctl start projector
+            \end{lstlisting}
+            W celach automatyzacji i ominięcia ostrzeżeń przeglądarki o niebezpiecznym połączeniu można użyć skryptu \hyperref[proj-start]{proj-start}.
             \subsubsection{Oglądanie udostępnionego ekranu}
             Metoda ręczna - uzyskanie 3 słownego identyfikatora pokoju i wpisanie go w pole tekstowe "Join streaming room" na głównej stronie aplikacji.
-            Zautomatyzowana metoda - uruchomienie skryptu \texttt{proj-klient}.
+            Zautomatyzowana metoda - uruchomienie skryptu \hyperref[proj-klient]{proj-klient}.
     \section{Efekty}
         \subsection{Testy w laboratorium Sieci Komputerowych}
         System został pomyślnie zainstalowany na serwerze w laboratorium. 
@@ -256,13 +251,44 @@
             \item Lepsze możliwości zmiany rozmiaru okna oglądania udostępnianego ekranu - teraz można to robić jedynie przez zmianę rozmiaru okna przeglądarki i nie wykorzystuje dobrze ekranu.
             Przy trybie niepełnoekranowym występują problemy z rozdzielczością.
             \end{itemize}
-    \section{Bibliografia i linki}
-        \begin{thebibliography}{2}
+        \subsection{Dystrybucja oprogramowania}
+            Skrypt \hyperref[PKGBUILD]{PKGBUILD} udało się przygotować do postaci gotowej do publicznej dystrybucji i umieścić w publicznym repozytorium społeczności systemu operacyjnego Arch Linux, a mianowicie Arch User Repository (AUR).
+            Teraz każdy użytkownik Arch Linuxa może zainstalować \texttt{projector} wygodnie, korzystając z menedżera pakietów, np. \texttt{yay}. \cite[link do repozytorium]{7}
+        \subsection{WebRTC}
+            WebRTC jest przyszłościową technologią, która osiągnęła już stabilizację i jest teraz adoptowana i wdrażana do coraz większej ilości oprogramowania. 
+            Najnowsze doniesienia są o trwaniu prac nad włączeniem obsługi WebRTC do popularnego programu przetwarzania wideo \texttt{ffmpeg} \cite{6} oraz do programu przechwytywania wideo \texttt{OBS} \cite{7}.
+    \section{Linki i bibliografia}
+        \renewcommand\refname{}
+        \begin{thebibliography}{9}
         \bibitem{1} \url{https://github.com/jordus100/projector} - Repozytorium projektu
         \bibitem{2} \url{https://github.com/adamyordan/laplace} - Repozytorium oryginalnego systemu, na którym opiera się projekt
         \bibitem{3} \url{https://github.com/webrtc-for-the-curious/webrtc-for-the-curious} - Szczegółowy opis protokołu WebRTC
-        \bibitem{4} \url{https://wiki.archlinux.org/title/PKGBUILD} % \\ \url{https://wiki.archlinux.org/title/makepkg} - Budowanie pakietów dla Arch Linux
-        \bibitem{5} James Kurose, Keith Ross, "Computer networking a top-down approach", Pearson, 2017
-        \bibitem{6} Kevin Fall, Richard Stevens, "TCP/IP Illustrated", Addison-Wesley, 20122
+        \bibitem{4} \url{https://wiki.archlinux.org/title/PKGBUILD} \\ \url{https://wiki.archlinux.org/title/makepkg} - Budowanie pakietów dla Arch Linux
+        \bibitem{5} \url{https://aur.archlinux.org/packages/projector-git} - \texttt{projector} dostępny w Arch User Repository
+        \bibitem{6} \url{https://github.com/ossrs/ffmpeg-webrtc/pull/1} - Pull Request z dodaną obsługą WebRTC do ffmpeg
+        \bibitem{7} \url{https://github.com/obsproject/obs-studio/commit/851a8c216e14617fb523951839f3bdb240e85141} - Dodany kod do repozytorium OBS
+        \bibitem{8} James Kurose, Keith Ross, "Computer networking a top-down approach", Pearson, 2017
+        \bibitem{9} Kevin Fall, Richard Stevens, "TCP/IP Illustrated", Addison-Wesley, 20122
         \end{thebibliography}
+    \section{Załączniki - skrypty}
+        \subsection{PKGBUILD}
+        Skrypt budujący pakiet dla Arch Linux, używany przez \texttt{makepkg}.
+        \label{PKGBUILD}
+        \lstinputlisting[language=bash]{PKGBUILD}
+        \subsection{Skrypt instalacyjny}
+        \label{proj}
+        Skrypt automatyzujący instalację opisaną w instrukcji instalacji.
+        \lstinputlisting[language=bash]{proj}
+        \subsection{projector.service}
+        Plik definicji usługi systemd.
+        \label{projector.service}
+        \lstinputlisting{projector.service}
+        \subsection{proj-start}
+        Skrypt uruchamiający serwer projector.
+        \label{proj-start}
+        \lstinputlisting[language=bash]{proj-start}
+        \subsection{proj-klient}
+        Skrypt otwierający udostępniony ekran klientowi.
+        \label{proj-klient}
+        \lstinputlisting[language=bash]{proj-klient}
 \end{document}
