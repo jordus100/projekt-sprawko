@@ -12,6 +12,8 @@
 \usepackage[inkscapeformat=pdf]{svg}	% .svg tylko w postaci wektorowej - nie png! .pdf/.eps/.ps/.png/.pdf_tex
 \usepackage{listings}
 \usepackage{float}
+\usepackage{lmodern}
+\usepackage{biblatex}
 \usepackage{hyperref}
 
 \lstdefinestyle{myStyle}{
@@ -136,8 +138,8 @@
         czy przypadkiem jakaś część tego, co jest potrzebne nie została już przez kogoś wykonana.
         Rozpoczęto swoje poszukiwania na najpopularniejszej stronie do udostępniania kodu - \emph{github.com}. Dosyć szybko znalazło się coś nadającego się.
         \subsection{Znalezione oprogramowanie}
-        Znaleziony zostało publicznie dostępny kod aplikacji internetowej wykorzystującej technologię WebRTC do udostępniania ekranu z poziomu przeglądarki. \\
-        Repozytorium znajduje się pod adresem \url{github.com/adamyordan/laplace}. \\
+        Znaleziony zostało publicznie dostępny kod aplikacji internetowej wykorzystującej technologię WebRTC do udostępniania ekranu z poziomu przeglądarki.
+        Aplikacja \cite{2} nosi nazwę Laplace i jest autorstwa Adama Jordana.
         Jest to prosty serwer HTTP napisany w języku Go. 
         Serwuje on pliki części frontendowej i komunikuje się z nią za pomocą protokołu WebSocket w celu negocjacji połączenia WebRTC (signaling). 
         Część kliencka (przeglądarkowa) aplikacji napisana jest w czystym Javascript. Cała aplikacja ma niewiele funkcjonalności, ale za to kod jest zwięzły i całość ma niewielki rozmiar.
@@ -180,8 +182,7 @@
             \item Dodano możliwość przekazania w fazie kompilacji zmiennej z lokalizacją plików statycznych serwera HTTP.
             \item Ustawiono najwyższe ustawienie jakości jako domyślne. 
         \end{itemize}
-        Stworzono repozytorium na GitHub'ie i nadano projektowi anglosaską nazwę "projector". \\
-        \url{https://github.com/jordus100/projector}
+        Stworzono repozytorium na GitHub'ie\cite{1} i nadano projektowi anglosaską nazwę "projector".
         \subsection{Skrypty instalacyjne}
         Na Arch Linuxie pakiety są budowane i instalowane za pomocą programu \texttt{makepkg}, według procedury opisanej w ustandaryzowanym pliku \texttt{PKGBUILD} pakietu. 
         Oto ten skrypt dla programu "projector":
@@ -256,10 +257,12 @@
             Przy trybie niepełnoekranowym występują problemy z rozdzielczością.
             \end{itemize}
     \section{Bibliografia i linki}
-        \begin{itemize}
-        \item \url{https://github.com/jordus100/projector} - Repozytorium projektu
-        \item \url{https://github.com/adamyordan/laplace} - Repozytorium oryginalnego systemu, na którym opiera się projekt
-        \item \url{https://github.com/webrtc-for-the-curious/webrtc-for-the-curious} - Szczegółowy opis protokołu WebRTC
-        \item \url{https://wiki.archlinux.org/title/PKGBUILD} \\ \url{https://wiki.archlinux.org/title/makepkg} - Budowanie pakietów dla Arch Linux
-        \end{itemize}
+        \begin{thebibliography}{2}
+        \bibitem{1} \url{https://github.com/jordus100/projector} - Repozytorium projektu
+        \bibitem{2} \url{https://github.com/adamyordan/laplace} - Repozytorium oryginalnego systemu, na którym opiera się projekt
+        \bibitem{3} \url{https://github.com/webrtc-for-the-curious/webrtc-for-the-curious} - Szczegółowy opis protokołu WebRTC
+        \bibitem{4} \url{https://wiki.archlinux.org/title/PKGBUILD} % \\ \url{https://wiki.archlinux.org/title/makepkg} - Budowanie pakietów dla Arch Linux
+        \bibitem{5} James Kurose, Keith Ross, "Computer networking a top-down approach", Pearson, 2017
+        \bibitem{6} Kevin Fall, Richard Stevens, "TCP/IP Illustrated", Addison-Wesley, 20122
+        \end{thebibliography}
 \end{document}
