@@ -1,0 +1,37 @@
+diff --git a/src/core/room.go b/src/core/room.go
+index b057f21..82b7507 100644
+--- a/src/core/room.go
++++ b/src/core/room.go
+@@ -22,6 +22,7 @@ type StreamSession struct {
+ }
+ 
+ var roomMap = make(map[string]*Room)
++const labskRoomId = "labsk"
+ 
+ func GetRoom(id string) *Room {
+     return roomMap[id]
+@@ -38,11 +39,7 @@ func NewRoom(callerConn *websocket.Conn) *Room {
+ }
+ 
+ func newRoomID() string {
+-    id := GetRandomName(0)
+-    for GetRoom(id) != nil {
+-        id = GetRandomName(0)
+-    }
+-    return id
++    return labskRoomId
+ }
+ 
+ func RemoveRoom(id string) {
+@@ -66,9 +63,9 @@ func (room *Room) NewSession(calleeConn *websocket.Conn) *StreamSession {
+ }
+ 
+ func (room *Room) newSessionID() string {
+-    id := fmt.Sprintf("%s$%s", room.ID, GetRandomName(0))
++    id := fmt.Sprintf("%s$%s", room.ID, labskRoomId)
+     for GetRoom(id) != nil {
+-        id = fmt.Sprintf("%s$%s", room.ID, GetRandomName(0))
++        id = fmt.Sprintf("%s$%s", room.ID, labskRoomId)
+     }
+     return id
+ }

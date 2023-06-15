@@ -13,7 +13,7 @@
 \usepackage{listings}
 \usepackage{float}
 \usepackage{lmodern}
-\usepackage{hyperref}
+\usepackage[colorlinks=false, linkbordercolor=blue, pdfborderstyle={/S/U/W 1}]{hyperref}
 
 \lstdefinestyle{myStyle}{
     belowcaptionskip=1\baselineskip,
@@ -121,7 +121,7 @@
         \end{itemize}     
         \subsection{Programy typu zdalny pulpit}
         Dostępne są na rynku programy o funkcjonalności pozwalającej na kontrolę nad zdalnym komputerem. 
-        Są to m.in. takie programy jak: TightVNC, TeamViewer, Windows Remote Desktop, CoScreen, Anydesk. 
+        Są to m.in. takie programy jak: TightVNC, TeamViewer, Windows Remote Desktop, CoScreen, Anydesk (\cite{8}). 
         Rozwiązania te dzielą wady wymienione, powyżej, a ponadto potrafią być zbyt skomplikowane do użytku, jeśli potrzebne jest tylko udostępnianie ekranu. 
         Ponadto często są to rozwiązania komercyjne, o zamkniętym kodzie źródłowym i płatnej licencji. 
         W laboratorium Sieci Komputerowych użyte było rozwiązanie oparte na skrypcie uruchamiającym i koordynującym połączenie za pomocą TightVNC. 
@@ -151,7 +151,7 @@
         \begin{figure}[H]
         \centering
         \def\svgwidth{\columnwidth}
-        \includesvg[width=1\textwidth]{proj-arch}
+        \includesvg[width=1\textwidth]{schmat_dzialania2}
         \caption{Schemat architektury sieciowej aplikacji}
         \label{rys1:label}
         \end{figure}
@@ -171,7 +171,7 @@
         \subsection{Co było do zrealizowania}
         W ramach wdrożenia zrealizowano następujące rzeczy: 
         \begin{itemize}
-            \item Dostosowano oprogramowanie do warunków sieci lokalnej i przygotowano jego repozytorium.
+            \item Dostosowano oprogramowanie do warunków sieci lokalnej laboratorium (\hyperref[łatka]{labsk.patch}) i przygotowano jego repozytorium.
             \item Napisano skrypty instalacyjne pod system operacyjny Arch Linux.
             \item Napisano skrypty usprawniające pracę z oprogramowaniem do udostęniania ekranu.
         \end{itemize}
@@ -230,36 +230,36 @@
             \caption{Zrzut ekranu strony udostępniania ekranu}
             \includegraphics[width=1\textwidth]{strona_udostepniania.png}
         \end{figure}
-        \subsection{Problemy i przyszłość}
-            \subsubsection{HTTPS}
-            Początkowo planowano wdrożyć system w laboratorium bez szyfrowania, ponieważ wydawało się to wygodniejsze i nie miało być dostępu z zewnątrz.
-            Okazało się jednak w trakcie testów, że przeglądarki nie pozwalają na dostęp do API WebRTC na stronach bez szyfrowania HTTPS.
-            Zmusiło to do włączenie obsługi HTTPS na serwerze projector. Skorzystano z szybkiego i prostego rozwiązania - samopodpisany certyfikat SSL.
-            Wprowadziło to jednak problemy w postaci przeglądarek wyświetlających ostrzeżenia o braku zaufania, co jest naturalne. 
-            Obchodzone jest to tymczasowo w moich skryptach automatyzujących \texttt{proj-start} i \texttt{proj-klient}, przekazując odpowiednie parametry przy uruchamianiu przeglądarek, aby ignorowały błędy certyfikatów.
-            Kolejnym naturalnym krokiem byłoby dowiązanie domeny do serwera projector i uzyskanie zaufanego certyfikatu SSL dla niej. 
-            \subsubsection{Protokoły okien}
-            Podczas testów systemu w laboratorium okazało się, że poprawne działanie jest trudniejsze w przypadku używania nowoczesnego protokołu okien Wayland.
-            Przeglądarki Chromium, Firefox nie dawały pełnych możliwości udostępnianie ekranu czy pojedynczych okien. 
-            W przypadku przeglądarki Chromium nie uruchamiała się w ogóle w trybie Wayland, tylko korzystała z zapewniającego wsteczną kompatybilność protokołu XWayland.
-            W pełni poprawną funkcjonalność udało się jedynie uzyskać wymuszając uruchomienie menedżera okien z protokołem X11 (Xorg).
-            Jest to na pewno problem, który z czasem zostanie rozwiązany, ponieważ protokół Wayland jest przyszłością i jest dynamicznie rozwijany.
-            \subsubsection{Konfiguracja wyświetlania strony}
-            Interfejs użytkownika aplikacji można na pewno ulepszyć, tutaj kilka pomysłów: 
-            \begin{itemize}
+    \section{Problemy i przyszłość}
+        \subsection{HTTPS}
+        Początkowo planowano wdrożyć system w laboratorium bez szyfrowania, ponieważ wydawało się to wygodniejsze i nie miało być dostępu z zewnątrz.
+        Okazało się jednak w trakcie testów, że przeglądarki nie pozwalają na dostęp do API WebRTC na stronach bez szyfrowania HTTPS.
+        Zmusiło to do włączenie obsługi HTTPS na serwerze projector. Skorzystano z szybkiego i prostego rozwiązania - samopodpisany certyfikat SSL.
+        Wprowadziło to jednak problemy w postaci przeglądarek wyświetlających ostrzeżenia o braku zaufania, co jest naturalne. 
+        Obchodzone jest to tymczasowo w moich skryptach automatyzujących \texttt{proj-start} i \texttt{proj-klient}, przekazując odpowiednie parametry przy uruchamianiu przeglądarek, aby ignorowały błędy certyfikatów.
+        Kolejnym naturalnym krokiem byłoby dowiązanie domeny do serwera projector i uzyskanie zaufanego certyfikatu SSL dla niej. 
+        \subsection{Protokoły okien}
+        Podczas testów systemu w laboratorium okazało się, że poprawne działanie jest trudniejsze w przypadku używania nowoczesnego protokołu okien Wayland.
+        Przeglądarki Chromium, Firefox nie dawały pełnych możliwości udostępnianie ekranu czy pojedynczych okien. 
+        W przypadku przeglądarki Chromium nie uruchamiała się w ogóle w trybie Wayland, tylko korzystała z zapewniającego wsteczną kompatybilność protokołu XWayland.
+        W pełni poprawną funkcjonalność udało się jedynie uzyskać wymuszając uruchomienie menedżera okien z protokołem X11 (Xorg).
+        Jest to na pewno problem, który z czasem zostanie rozwiązany, ponieważ protokół Wayland jest przyszłością i jest dynamicznie rozwijany.
+        \subsection{Konfiguracja wyświetlania strony}
+        Interfejs użytkownika aplikacji można na pewno ulepszyć, tutaj kilka pomysłów: 
+        \begin{itemize}
             \item Dodanie możliwości konfiguracji opcji WebRTC w utworzonym już pokoju - teraz można jedynie to robić przed jego utworzeniem.
             \item Lepsze możliwości zmiany rozmiaru okna oglądania udostępnianego ekranu - teraz można to robić jedynie przez zmianę rozmiaru okna przeglądarki i nie wykorzystuje dobrze ekranu.
-            Przy trybie niepełnoekranowym występują problemy z rozdzielczością.
-            \end{itemize}
-        \subsection{Dystrybucja oprogramowania}
-            Skrypt \hyperref[PKGBUILD]{PKGBUILD} udało się przygotować do postaci gotowej do publicznej dystrybucji i umieścić w publicznym repozytorium społeczności systemu operacyjnego Arch Linux, a mianowicie Arch User Repository (AUR).
-            Teraz każdy użytkownik Arch Linuxa może zainstalować \texttt{projector} wygodnie, korzystając z menedżera pakietów, np. \texttt{yay}. \cite[link do repozytorium]{7}
-        \subsection{WebRTC}
-            WebRTC jest przyszłościową technologią, która osiągnęła już stabilizację i jest teraz adoptowana i wdrażana do coraz większej ilości oprogramowania. 
-            Najnowsze doniesienia są o trwaniu prac nad włączeniem obsługi WebRTC do popularnego programu przetwarzania wideo \texttt{ffmpeg} \cite{6} oraz do programu przechwytywania wideo \texttt{OBS} \cite{7}.
+        Przy trybie niepełnoekranowym występują problemy z rozdzielczością.
+        \end{itemize}
+    \subsection{Dystrybucja oprogramowania}
+        Skrypt \hyperref[PKGBUILD]{PKGBUILD} udało się przygotować do postaci gotowej do publicznej dystrybucji i umieścić w publicznym repozytorium społeczności systemu operacyjnego Arch Linux, a mianowicie Arch User Repository (AUR).
+        Teraz każdy użytkownik Arch Linuxa może zainstalować \texttt{projector} \cite{5} wygodnie, korzystając z menedżera pakietów, np. \texttt{yay}.
+    \subsection{WebRTC}
+        WebRTC jest przyszłościową technologią, która osiągnęła już stabilizację i jest teraz adoptowana i wdrażana do coraz większej ilości oprogramowania. 
+        Najnowsze doniesienia są o trwaniu prac nad włączeniem obsługi WebRTC do popularnego programu przetwarzania wideo \texttt{ffmpeg} \cite{6} oraz do programu przechwytywania wideo \texttt{OBS} \cite{7}.
     \section{Linki i bibliografia}
         \renewcommand\refname{}
-        \begin{thebibliography}{9}
+        \begin{thebibliography}{99}
         \bibitem{1} \url{https://github.com/jordus100/projector} - Repozytorium projektu
         \bibitem{2} \url{https://github.com/adamyordan/laplace} - Repozytorium oryginalnego systemu, na którym opiera się projekt
         \bibitem{3} \url{https://github.com/webrtc-for-the-curious/webrtc-for-the-curious} - Szczegółowy opis protokołu WebRTC
@@ -267,14 +267,19 @@
         \bibitem{5} \url{https://aur.archlinux.org/packages/projector-git} - \texttt{projector} dostępny w Arch User Repository
         \bibitem{6} \url{https://github.com/ossrs/ffmpeg-webrtc/pull/1} - Pull Request z dodaną obsługą WebRTC do ffmpeg
         \bibitem{7} \url{https://github.com/obsproject/obs-studio/commit/851a8c216e14617fb523951839f3bdb240e85141} - Dodany kod do repozytorium OBS
-        \bibitem{8} James Kurose, Keith Ross, "Computer networking a top-down approach", Pearson, 2017
-        \bibitem{9} Kevin Fall, Richard Stevens, "TCP/IP Illustrated", Addison-Wesley, 20122
+        \bibitem{8} \url{https://www.tightvnc.com/} \url{https://www.teamviewer.com/pl/} \url{https://www.coscreen.co/} \url{https://anydesk.com/en} - Programy typu "zdalny pulpit"
+        \bibitem{9} James Kurose, Keith Ross, "Computer networking a top-down approach", Pearson, 2017
+        \bibitem{10} Kevin Fall, Richard Stevens, "TCP/IP Illustrated", Addison-Wesley, 20122
         \end{thebibliography}
     \section{Załączniki - skrypty}
         \subsection{PKGBUILD}
         Skrypt budujący pakiet dla Arch Linux, używany przez \texttt{makepkg}.
         \label{PKGBUILD}
         \lstinputlisting[language=bash]{PKGBUILD}
+        \subsection{labsk.patch}
+        Łatka do oprogramowania zawierająca funkcjonalność potrzebną w laboratorium
+        \label{labsk.patch}
+        \lstinputlisting[language=bash]{labsk.patch}
         \subsection{Skrypt instalacyjny}
         \label{proj}
         Skrypt automatyzujący instalację opisaną w instrukcji instalacji.

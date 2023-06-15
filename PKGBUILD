@@ -18,6 +18,8 @@ _service_files="usr/lib/systemd/system"
 _src="$pkgname/src"
 
 build() {
+	cd "$srcdir/$pkgname"
+	git apply --ignore-space-change --ignore-whitespace labsk.patch # zaaplikowanie łatki dostosowującej program do potrzeb laboratorium
 	cd "$srcdir/$_src"
 	go build -o laplace -ldflags "-X main.staticDir=/$_static_files/files" main.go 
 }
